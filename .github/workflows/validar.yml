@@ -1,0 +1,18 @@
+name: Validar
+
+# Cada vez que entra algo a semanas/, revisa las reglas de ALMILU (sin dinero,
+# WhatsApp, enlace en el perfil, hashtags, texto alternativo, medidas).
+on:
+  push:
+    paths: ['semanas/**']
+  workflow_dispatch:
+
+jobs:
+  validar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node scripts/validar.mjs

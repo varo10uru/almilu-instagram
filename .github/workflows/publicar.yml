@@ -1,0 +1,95 @@
+name: Publicar
+
+# Publica en @almilu.uy (y en la página de Facebook) lo aprobado que toca hoy:
+# carruseles y fotos desde las 11:30 de Uruguay y reels desde las 20:00 (o la
+# "hora" de cada post.json). Corre cada hora como respaldo; el que la lanza a
+# tiempo es el disparador de la Mac (scripts/disparar-desde-la-mac.sh), porque
+# GitHub atrasa las corridas programadas. Lo ya publicado queda anotado en
+# publicados.json y no se repite.
+#
+# A mano (Actions → Publicar → Run workflow, o `gh workflow run publicar.yml`):
+# - modo "pendientes": lo mismo que la corrida de cada hora.
+# - fecha: publica todo lo de esa fecha (para relanzar un día que falló).
+# - carpeta: publica ese post ya (ej. semanas/2026-11-19/reel-posada).
+# - simular: hace todo menos publicar (Instagram revisa imágenes y video).
+# - facebook: incluye la página de Facebook en esta corrida, aunque no esté
+#   prendida (para probarla junto con "simular").
+# La página de Facebook se prende con la variable PUBLICAR_EN_FACEBOOK = si.
+#
+# Para apagar todo: `gh workflow disable publicar.yml -R varo10uru/almilu-instagram`
+# y `zsh scripts/disparar-desde-la-mac.sh --sacar`.
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'Qué publicar'
+        type: choice
+        options: [pendientes, fecha]
+        default: pendientes
+      fecha:
+        description: 'Con modo fecha: AAAA-MM-DD'
+        required: false
+      carpeta:
+        description: 'O un post puntual (ej. semanas/2026-11-19/reel-posada)'
+        required: false
+      simular:
+        description: 'Simular (no publica)'
+        type: boolean
+        default: false
+      facebook:
+        description: 'Incluir la página de Facebook'
+        type: boolean
+        default: false
+
+# Nunca dos corridas a la vez: así no se publica nada dos veces
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Publicar
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          MODO: ${{ inputs.modo }}
+          FECHA: ${{ inputs.fecha }}
+          CARPETA: ${{ inputs.carpeta }}
+          SIMULAR: ${{ inputs.simular }}
+          FACEBOOK: ${{ inputs.facebook && 'si' || vars.PUBLICAR_EN_FACEBOOK }}
+        run: |
+          if [ -z "$IG_TOKEN" ]; then echo "Todavía no hay token cargado (README, Puesta en marcha): no publico nada."; exit 0; fi
+          args=()
+          if [ -n "$CARPETA" ]; then args+=(--carpeta "$CARPETA")
+          elif [ "$MODO" = "fecha" ] && [ -n "$FECHA" ]; then args+=(--fecha "$FECHA")
+          else args+=(--pendientes); fi
+          if [ "$SIMULAR" = "true" ]; then args+=(--simular); fi
+          node scripts/publicar.mjs "${args[@]}"
+
+      - name: Anotar en el historial
+        # Aunque algo haya fallado: lo que sí se publicó tiene que quedar anotado
+        if: always()
+        run: |
+          if git diff --quiet -- publicados.json; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publicados.json
+          git commit -m "Historial: publicado el $(TZ=America/Montevideo date +%F)"
+          for intento in 1 2 3; do
+            git pull --rebase --quiet && git push && exit 0
+            sleep 5
+          done
+          exit 1
