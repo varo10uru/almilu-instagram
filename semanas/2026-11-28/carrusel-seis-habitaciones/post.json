@@ -1,14 +1,14 @@
 {
-  "fecha": "2026-11-21",
+  "fecha": "2026-11-28",
   "hora": "11:30",
   "tipo": "carrusel",
-  "tema": "Seis habitaciones",
+  "tema": "Seis habitaciones. ¿Son dos o son tres?",
   "texto": "Seis habitaciones en Punta del Diablo, a una cuadra del médano. ¿Son dos o son tres?\n\nPara 3 están la 9 y la 10, con cama matrimonial y una de una plaza. Para 2, la 8, la 12, la 13 y la 14, con cama matrimonial.\nTodas tienen baño propio, kitchenette, aire y wifi, y las sábanas y las toallas ya están. Afuera hay quincho, parrilleros, horno de barro y estacionamiento.\n\nGuardalo para cuando armen las fechas.\n\nContanos tus fechas y cuántos son, y te decimos qué habitación queda libre.\nWhatsApp 096 402 185 · enlace en el perfil.",
   "hashtags": [
     "#PuntaDelDiablo",
-    "#PosadaAlmilu",
-    "#RochaUruguay",
+    "#UruguayNatural",
     "#EscapadaEnPareja",
+    "#RochaUruguay",
     "#Verano2027"
   ],
   "piezas": [
@@ -40,5 +40,5 @@
       "alt": "Cartel de madera con el logo de ALMILU y la palabra Posada. Texto: contanos tus fechas y cuántos son. WhatsApp 096 402 185, enlace en el perfil."
     }
   ],
-  "aprobado": "2026-11-18, por el usuario (página de revisión y chat)"
+  "aprobado": true
 }

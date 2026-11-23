@@ -1,0 +1,35 @@
+{
+  "fecha": "2026-11-25",
+  "hora": "11:30",
+  "tipo": "carrusel",
+  "tema": "¿Casa o posada?",
+  "texto": "¿Casa o posada? Depende de con quién venís.\n\nDe a dos: la posada, en la 8, la 12, la 13 o la 14, con cama matrimonial, baño propio y kitchenette.\nTres: la 9 o la 10, con cama matrimonial y una de una plaza.\nLa familia: una casa para hasta 6, con su piscina, a 3 cuadras de la playa.\nDos familias: las dos casas, cada una en la suya.\n\nEtiquetá a quien viene con vos.\n\nEn diciembre, enero y febrero todavía hay lugar en las dos casas; por la posada, preguntanos. Contanos cuántos son y tus fechas.\nWhatsApp 096 402 185 · enlace en el perfil.",
+  "hashtags": [
+    "#PuntaDelDiablo",
+    "#UruguayNatural",
+    "#CasaConPiscina",
+    "#EscapadaEnPareja",
+    "#RochaUruguay"
+  ],
+  "piezas": [
+    {
+      "alt": "Lámina partida en dos: a la izquierda, el cartel tallado de ALMILU con una de las casas y su piscina atrás; a la derecha, la puerta tallada de la habitación 12 de la posada. Texto: ¿Casa o posada? Depende de con quién venís."
+    },
+    {
+      "alt": "Habitación 12 de la posada: cama matrimonial, ventilador de techo, paredes de madera y ventanal. Texto: si vienen de a dos, posada: la 8, la 12, la 13 o la 14."
+    },
+    {
+      "alt": "Habitación 10 de la posada: una cama matrimonial con acolchado fucsia y otra con acolchado bordó, paredes de madera y piso de baldosa. Texto: si son tres, posada: la 9 o la 10, con cama matrimonial y una de una plaza."
+    },
+    {
+      "alt": "Una de las casas con su piscina, la fachada con balcón y el deck. Texto: si viene la familia, una casa para hasta 6 personas, con su piscina, a 3 cuadras de la playa."
+    },
+    {
+      "alt": "Las dos casas en el mismo terreno, con el deck adelante. Texto: si son dos familias, las dos casas, hasta 12 personas, cada familia en su casa, con su piscina."
+    },
+    {
+      "alt": "Cartel de madera con el logo de ALMILU y la palabra Posada. Texto: contanos cuántos son y tus fechas. WhatsApp 096 402 185, enlace en el perfil."
+    }
+  ],
+  "aprobado": true
+}
