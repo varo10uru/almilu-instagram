@@ -2,7 +2,7 @@
 
 Publica solo, a su hora, lo que ya aprobaste. Es el mismo sistema que se usó para ORUM, aparte y para @almilu.uy.
 
-- **Las piezas se arman** en `~/Desarrollo/Almilu/instagram/` y las revisás en la página de revisión de cada semana.
+- **Las piezas se arman** en `~/Desarrollo/almilu/web/instagram/` y las revisás en la página de revisión de cada semana.
 - **Lo que marcás "Aprobada"** entra a este repo, en `semanas/<fecha>/<pieza>/`. Nada sin aprobar entra acá.
 - **A su hora sale solo:** carruseles y fotos a las 11:30, reels a las 20:00 (o la `hora` del `post.json`), en Instagram y en la página de Facebook. Lo publicado queda anotado en `publicados.json` y no se repite.
 - **TikTok** sigue a mano: cada semana queda un kit con los videos y los textos, y lo programás en TikTok Studio (unos 10 minutos).
@@ -28,7 +28,7 @@ La Mac dispara "Publicar" porque GitHub atrasa sus horarios (en ORUM, hasta 5 ho
    3. Tocá "Generate Access Token" y autorizá la página de ALMILU y @almilu.uy.
 4. **Guardarlo en el repo.** En la Terminal:
    ```
-   cd ~/Desarrollo/almilu-instagram
+   cd ~/Desarrollo/almilu/instagram
    node scripts/conectar.mjs
    ```
    Pide el App ID, la clave secreta y el token (lo secreto no se ve al escribirlo). Guarda en GitHub el token de la página, que no vence, y el id de @almilu.uy. **Los tokens nunca se pegan en un chat.**
