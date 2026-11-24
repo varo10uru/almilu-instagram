@@ -43,6 +43,7 @@ Por la API, los reels no pueden llevar música de la biblioteca de Instagram: sa
 ## Si algo falla
 
 - GitHub manda un mail cuando una corrida de "Publicar" falla. Lo que sí salió queda anotado.
+- **Aviso en la Mac:** si una pieza no salió a su hora, la Mac muestra un aviso con el motivo (hasta 3 veces por pieza, desde unos 40 minutos después de la hora). Lo hace `scripts/avisar.mjs`, que corre con la tarea de la Mac. Para probarlo: `node scripts/avisar.mjs --ahora "2026-11-25 12:09"`.
 - Para relanzar un día: Actions → Publicar → modo "fecha" y la fecha.
 - Para ver qué hay cargado: `node scripts/validar.mjs` (revisa todo `semanas/`).
 - Para ver la cuenta conectada: `IG_TOKEN=… IG_USER_ID=… node scripts/publicar.mjs --probar` (o Actions con "Simular").

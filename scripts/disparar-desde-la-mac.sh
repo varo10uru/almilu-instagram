@@ -8,6 +8,8 @@
 # tiene la hora cumplida, y lo ya publicado no se repite. Usa el `gh` que
 # ya está conectado a GitHub: no necesita tokens nuevos.
 #
+# Después mira si algo no salió a su hora y avisa en pantalla (avisar.mjs).
+#
 # Solo corre con la Mac prendida. Si está dormida, macOS la corre una vez
 # apenas se despierta.
 #
@@ -61,5 +63,7 @@ EOF
   *)
     salida=$(gh workflow run publicar.yml -R varo10uru/almilu-instagram -f modo=pendientes 2>&1)
     echo "$(date '+%F %H:%M') ${salida##*$'\n'}"
+    # Si una pieza no salió a su hora, avisa en pantalla (no publica nada)
+    node "${SCRIPT:h}/avisar.mjs"
     ;;
 esac
