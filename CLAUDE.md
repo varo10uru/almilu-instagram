@@ -12,7 +12,12 @@ Repo público: GitHub sirve los JPG por raw.githubusercontent para que Meta los 
   "los dueños" ni nombres propios, la posada es "a una cuadra del médano", la habitación 15 no sale nunca,
   cierre con WhatsApp 096 402 185 + "enlace en el perfil" + una frase de fechas libres revisada ese día
   (https://almilu.uy/api/calendario) y sin fechas exactas. `scripts/validar.mjs` controla lo que se puede controlar.
-- Música: solo pistas aprobadas por el usuario, con su licencia en `musica/LICENCIAS.md`.
+- Música: siempre (pedido del 25/11/2026: de verano, actual, para jóvenes). Solo pistas aprobadas por el usuario, con su
+  licencia en `musica/LICENCIAS.md`. En los reels va pegada en el video. Los carruseles y las fotos llevan `"a_mano": true`
+  y se suben desde la app (emulador), con un tema de la biblioteca de Instagram ("LR", libre de regalías: la cuenta es de
+  empresa y no tiene los hits). Después se anotan en `publicados.json` con el link y `"a_mano": true`.
+- Fotos: antes de que una pieza entre a `semanas/`, mirar cada lámina a 1080 px. Se tiene que ver entero y nítido lo que
+  dice el texto, sin que la tarjeta lo tape, y sin otros teléfonos, matrículas ni personas.
 - No tocar `~/Desarrollo/orum/instagram` ni nada de @orum.uy (cancelado el 5/11).
 - Commits en español, uno por tanda aprobada.
 

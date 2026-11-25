@@ -4,7 +4,8 @@ Publica solo, a su hora, lo que ya aprobaste. Es el mismo sistema que se usó pa
 
 - **Las piezas se arman** en `~/Desarrollo/almilu/web/instagram/` y las revisás en la página de revisión de cada semana.
 - **Lo que marcás "Aprobada"** entra a este repo, en `semanas/<fecha>/<pieza>/`. Nada sin aprobar entra acá.
-- **A su hora sale solo:** carruseles y fotos a las 11:30, reels a las 20:00 (o la `hora` del `post.json`), en Instagram y en la página de Facebook. Lo publicado queda anotado en `publicados.json` y no se repite.
+- **Los reels salen solos** a las 20:00 (o la `hora` del `post.json`), en Instagram y en la página de Facebook, con la música pegada en el video.
+- **Los carruseles y las fotos van a mano**, porque llevan música y la API no la permite (`"a_mano": true`): a las 11:30, desde la app, en Instagram y Facebook. La Mac lo recuerda a las 11:09 y, si no se subió, otras dos veces. Lo publicado queda anotado en `publicados.json` y no se repite.
 - **TikTok** sigue a mano: cada semana queda un kit con los videos y los textos, y lo programás en TikTok Studio (unos 10 minutos).
 
 ## Qué corre, cuándo y cómo se apaga
@@ -38,7 +39,7 @@ La Mac dispara "Publicar" porque GitHub atrasa sus horarios (en ORUM, hasta 5 ho
 
 ## Música de los reels
 
-Por la API, los reels no pueden llevar música de la biblioteca de Instagram: sale el sonido que trae el video. Cada reel lleva una pista libre de derechos, con licencia para uso comercial, que aprobaste antes. La licencia de cada pista queda anotada en `musica/LICENCIAS.md`.
+Por la API, los reels no pueden llevar música de la biblioteca de Instagram: sale el sonido que trae el video. Cada reel lleva una pista libre de derechos, con licencia para uso comercial, que aprobaste antes (desde el 26/11/2026, reggaetón de Mixkit: Villa Penthouse, Mi Gente y Reggaetton). La licencia de cada pista queda anotada en `musica/LICENCIAS.md`.
 
 ## Si algo falla
 

@@ -57,7 +57,8 @@ async function comprobarUrl(url){
 // El texto tal como sale en Instagram: texto + hashtags
 const textoCompleto = (datos) => `${datos.texto}\n\n${datos.hashtags.join(' ')}`;
 const normalizar = (t = '') => t.replace(/\s+/g, ' ').trim().slice(0, 150);
-const vaAFacebook = ({ datos }) => facebookPrendido() && !datos.ia;
+// Lo que se sube a mano ("a_mano": true) ya va a Facebook desde la app
+const vaAFacebook = ({ datos }) => facebookPrendido() && !datos.ia && !datos.a_mano;
 
 // Lo que se sube: el texto, las URLs públicas de las imágenes y el video
 async function mediosDelPost({ carpeta, datos }){
@@ -146,15 +147,22 @@ if (op.probar){
   }
 }
 
+// Los carruseles y las fotos llevan música y la API no la permite: se suben a
+// mano desde la app ("a_mano": true) y acá se saltean, salvo con --carpeta.
+const sinLosDeAMano = (lista) => lista.filter((p) => {
+  if (p.datos.a_mano) console.log(`  ${relative(RAIZ, p.carpeta)}: va a mano, con música; lo salteo`);
+  return !p.datos.a_mano;
+});
+
 let posts;
 if (op.carpeta){
   posts = await buscarPosts([op.carpeta]);
 } else if (op.pendientes){
   const [fecha, ahora] = [hoyUY(), horaUY()];
-  posts = (await buscarPosts([join(RAIZ, 'semanas')])).filter((p) => p.datos.fecha === fecha && horaDe(p.datos) <= ahora);
+  posts = sinLosDeAMano((await buscarPosts([join(RAIZ, 'semanas')])).filter((p) => p.datos.fecha === fecha && horaDe(p.datos) <= ahora));
   console.log(`${fecha} ${ahora}: ${posts.length ? posts.length + ' con la hora cumplida' : 'nada para esta hora'}`);
 } else if (op.fecha){
-  posts = (await buscarPosts([join(RAIZ, 'semanas')])).filter((p) => p.datos.fecha === op.fecha);
+  posts = sinLosDeAMano((await buscarPosts([join(RAIZ, 'semanas')])).filter((p) => p.datos.fecha === op.fecha));
   console.log(`${op.fecha}: ${posts.length ? posts.length + ' para publicar' : 'nada'}`);
 } else {
   console.error('Uso: node scripts/publicar.mjs --probar | --pendientes | --fecha AAAA-MM-DD | --carpeta <ruta> [--simular]');

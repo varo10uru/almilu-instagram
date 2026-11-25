@@ -58,6 +58,9 @@ export async function validarPost({ carpeta, datos }){
   if (!/^\d{4}-\d{2}-\d{2}$/.test(datos.fecha || '')) e.push('"fecha" tiene que ser AAAA-MM-DD');
   if (datos.hora && !/^\d{2}:\d{2}$/.test(datos.hora)) e.push('"hora" tiene que ser HH:MM');
   if (!TIPOS.includes(datos.tipo)) e.push(`"tipo" tiene que ser ${TIPOS.join(', ')}`);
+  // Siempre con música (25/11/2026): la API solo la permite en los reels, pegada en el video
+  if (['carrusel', 'post'].includes(datos.tipo) && datos.fecha >= '2026-11-25' && datos.a_mano !== true)
+    e.push('carruseles y fotos van con música y se suben a mano: falta "a_mano": true');
   if (typeof datos.texto !== 'string' || !datos.texto.trim()) e.push('falta "texto"');
 
   const hashtags = datos.hashtags || [];

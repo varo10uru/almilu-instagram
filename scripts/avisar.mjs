@@ -8,6 +8,8 @@
 // (por si justo está saliendo) y, si sigue faltando, avisa en pantalla con el
 // motivo. Avisa hasta 3 veces por pieza. No publica nada ni toca archivos
 // del repo.
+// Lo que va a mano ("a_mano": true, carruseles y fotos con música) lo recuerda
+// desde 25 minutos antes de la hora.
 //
 // Uso:
 //   node scripts/avisar.mjs                                  lo que hace la tarea
@@ -26,6 +28,7 @@ import { RAIZ, horaDe, hoyUY, horaUY } from './comun.mjs';
 const REPO = 'varo10uru/almilu-instagram';
 const MEMORIA = join(homedir(), 'Library/Application Support/almilu-publicar/avisos.json');
 const MARGEN_MIN = 25;      // minutos después de la hora antes de mirar
+const ANTES_A_MANO_MIN = 25; // lo que va a mano se avisa antes de la hora
 const VECES = 3;            // avisos por pieza, como mucho
 const ESPERA_MAX_MIN = 8;   // cuánto esperar a que termine la corrida en curso
 
@@ -54,7 +57,8 @@ async function faltantes(){
     if (!dias.includes(datos.fecha)) continue;
     const hora = horaDe(datos);
     const salia = new Date(`${datos.fecha}T${hora}:00-03:00`);
-    if (ahora - salia >= MARGEN_MIN * 60_000) faltan.push({ carpeta, tema: datos.tema, hora, esHoy: datos.fecha === dias[0] });
+    const desde = (datos.a_mano ? -ANTES_A_MANO_MIN : MARGEN_MIN) * 60_000;
+    if (ahora - salia >= desde) faltan.push({ carpeta, tema: datos.tema, hora, esHoy: datos.fecha === dias[0], aMano: !!datos.a_mano });
   }
   return faltan;
 }
@@ -81,10 +85,10 @@ async function motivo(){
   return 'Pedile a Claude que lo mire.';
 }
 
-async function enPantalla(texto){
+async function enPantalla(texto, titulo){
   await correr('osascript', ['-e', 'on run argv', '-e',
-    'display notification (item 1 of argv) with title "ALMILU: no salió una publicación" sound name "Glass"',
-    '-e', 'end run', texto]);
+    'display notification (item 1 of argv) with title (item 2 of argv) sound name "Glass"',
+    '-e', 'end run', texto, titulo]);
 }
 
 try {
@@ -92,7 +96,7 @@ try {
   const sinAvisar = (lista) => lista.filter((f) => (memoria[f.carpeta] || 0) < VECES);
 
   let faltan = sinAvisar(await faltantes());
-  if (faltan.length && !ensayo){
+  if (faltan.some((f) => !f.aMano) && !ensayo){
     await esperarCorrida();
     faltan = sinAvisar(await faltantes());
   }
@@ -101,11 +105,11 @@ try {
     process.exit(0);
   }
 
-  const porque = await motivo();
+  const porque = faltan.some((f) => !f.aMano) ? await motivo() : '';
   for (const f of faltan){
-    const texto = `"${f.tema}" (${f.esHoy ? 'hoy' : 'ayer'} ${f.hora}). ${porque}`;
+    const texto = `"${f.tema}" (${f.esHoy ? 'hoy' : 'ayer'} ${f.hora}). ${f.aMano ? 'Va a mano, con música: pedíselo a Claude.' : porque}`;
     decir(texto);
-    if (!ensayo || op['en-pantalla']) await enPantalla(texto);
+    if (!ensayo || op['en-pantalla']) await enPantalla(texto, f.aMano ? 'ALMILU: hay una publicación para subir' : 'ALMILU: no salió una publicación');
     memoria[f.carpeta] = (memoria[f.carpeta] || 0) + 1;
   }
   if (!ensayo){
